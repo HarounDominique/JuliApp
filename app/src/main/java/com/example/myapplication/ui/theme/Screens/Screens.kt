@@ -5,6 +5,6 @@ sealed class Screens(val route: String){
 
     object Boton1: Screens("boton1")
     object Boton2: Screens("boton2")
-    object Boton3: Screens("boton3")
+    //object Boton3: Screens("boton3")
 
 }

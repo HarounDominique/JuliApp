@@ -15,7 +15,7 @@ fun Navigation() {
         composable(route = Screens.MainScreen.route) { MenuScreen(navController) }
         composable(route = Screens.Boton1.route) { EscribirPregunta() }
         composable(route = Screens.Boton2.route) { }
-        composable(route = Screens.Boton3.route) { }
+        //composable(route = Screens.Boton3.route) { }
     }
 }
 

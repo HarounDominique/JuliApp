@@ -57,12 +57,6 @@ fun BodyContent(modifier: Modifier) {
     ) {
         // Aquí puedes agregar más elementos a la columna si lo deseas
         Navigation()
-/*
-        MyButton(texto = "ESCRIBIR UNA PREGUNTA")
-        MyButton(texto = "LEER MIS PREGUNTAS")
-        MyButton(texto = "OPCIONES Y AJUSTES")
-
- */
     }
 }
 

@@ -25,9 +25,11 @@ fun MenuScreen(navController: NavController) {
         Button(onClick = { navController.navigate(route = Screens.Boton2.route) }) {
             Text(text = "Leer mis preguntas")
         }
+        /*
         Button(onClick = { navController.navigate(route = Screens.Boton3.route) }) {
             Text(text = "Opciones")
         }
+         */
     }
 
 }
