@@ -24,31 +24,94 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Navigation.Navigation
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val lobsterFontFamily = FontFamily(
-            Font(R.font.lobster_regular) // Nombre del archivo de la fuente sin extensión
-        )
+
+
+        /*
+                    val f8 = FontFamily(
+                        Font(R.font.lr) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f7 = FontFamily(
+                        Font(R.font.ar) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f6 = FontFamily(
+                        Font(R.font.br) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f5 = FontFamily(
+                        Font(R.font.cgr) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f4 = FontFamily(
+                        Font(R.font.lor) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f3 = FontFamily(
+                        Font(R.font.mqr) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f2 = FontFamily(
+                        Font(R.font.mr) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val f1 = FontFamily(
+                        Font(R.font.ur) // Nombre del archivo de la fuente sin extensión
+                    )
+                    val randomNumber =
+                        Random.nextInt(1, 9) // Genera un número aleatorio entre 1 y 8 (ambos incluidos)
+                    println("Número aleatorio entre 1 y 8: $randomNumber")
+
+         */
+
+        val randomNumber =
+            Random.nextInt(1, 9) // Genera un número aleatorio entre 1 y 8 (ambos incluidos)
+        println("Número aleatorio entre 1 y 8: $randomNumber")
+
+        val selectedFontFamily = when (randomNumber) {
+            1 -> FontFamily(
+                Font(R.font.lr))
+            2 -> FontFamily(
+                Font(R.font.ar))
+            3 -> FontFamily(
+                Font(R.font.br))
+            4 -> FontFamily(
+                Font(R.font.cgr))
+            5 -> FontFamily(
+                Font(R.font.lor))
+            6 -> FontFamily(
+                Font(R.font.mqr))
+            7 -> FontFamily(
+                Font(R.font.mr))
+            8 -> FontFamily(
+                Font(R.font.ur))
+            else -> FontFamily(
+                Font(R.font.ur)) // En caso de un número fuera del rango, usar "ur" como fuente por defecto
+        }
+
+        val f1 = selectedFontFamily
+
         setContent {
             MyApplicationTheme {
                 Scaffold(
                     topBar = {
                         TopAppBar(
+
                             title = {
                                 //para centrar horizontalmente el texto del encabezado necesito colocarlo en un contenedor, en este caso una box.
                                 Box(
-                                    modifier = Modifier.fillMaxSize()
+                                    modifier = Modifier
+                                        .fillMaxSize()
                                         .padding(top = 20.dp),
                                     contentAlignment = Alignment.Center
-                                ) { Text(text = "JuliApp",
-                                    style = TextStyle(
-                                        fontFamily = lobsterFontFamily,
-                                        fontSize = 50.sp
+                                ) {
+                                    Text(
+                                        text = "JuliApp",
+                                        style = TextStyle(
+                                            fontFamily = f1,
+                                            fontSize = 50.sp
+                                        )
                                     )
-                                ) }
+                                }
                             }
                         )
                     },
@@ -74,7 +137,7 @@ fun BodyContent(modifier: Modifier) {
 }
 
 @Composable
-fun MyButton(texto:String) {
+fun MyButton(texto: String) {
     Button(
         onClick = {
             // Aquí puedes realizar acciones cuando se hace clic en el botón
