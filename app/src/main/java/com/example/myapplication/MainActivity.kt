@@ -17,7 +17,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Navigation.Navigation
 
@@ -25,6 +29,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val lobsterFontFamily = FontFamily(
+            Font(R.font.lobster_regular) // Nombre del archivo de la fuente sin extensión
+        )
         setContent {
             MyApplicationTheme {
                 Scaffold(
@@ -33,9 +40,15 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 //para centrar horizontalmente el texto del encabezado necesito colocarlo en un contenedor, en este caso una box.
                                 Box(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth()
+                                        .padding(top = 20.dp),
                                     contentAlignment = Alignment.Center
-                                ) { Text(text = "JuliAPP") }
+                                ) { Text(text = "JuliApp",
+                                    style = TextStyle(
+                                        fontFamily = lobsterFontFamily,
+                                        fontSize = 55.sp
+                                    )
+                                ) }
                             }
                         )
                     },
