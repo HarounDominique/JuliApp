@@ -40,13 +40,13 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 //para centrar horizontalmente el texto del encabezado necesito colocarlo en un contenedor, en este caso una box.
                                 Box(
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier.fillMaxSize()
                                         .padding(top = 20.dp),
                                     contentAlignment = Alignment.Center
                                 ) { Text(text = "JuliApp",
                                     style = TextStyle(
                                         fontFamily = lobsterFontFamily,
-                                        fontSize = 55.sp
+                                        fontSize = 50.sp
                                     )
                                 ) }
                             }
