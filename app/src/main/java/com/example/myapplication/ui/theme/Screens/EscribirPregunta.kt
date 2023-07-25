@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.theme.Screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,11 +10,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -35,6 +41,14 @@ fun EscribirPregunta(){
 
     Column(modifier = Modifier
         .fillMaxSize()
+        .background(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color(0xFFFFFFFF),
+                    Color(0xFF7088A0)
+                )
+            )
+        )
         .padding(top = 120.dp), /**poner dp's, porque si no el encabezado (nombre de la app se come el resto de componentes**/
     verticalArrangement = Arrangement.Top,
     horizontalAlignment = Alignment.CenterHorizontally) {
@@ -44,6 +58,47 @@ fun EscribirPregunta(){
                 fontSize = 30.sp)
         )
 
+        OutlinedTextField(
+            value = vm.questionTextFieldValue,
+            onValueChange = {vm.setQuestionTextFieldValue(it)},
+            label = { Text("Pregunta:") },
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = TextStyle(
+                fontFamily = quicksandFont,
+                fontSize = 20.sp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Blue, // Color del borde cuando el TextField tiene el foco
+                unfocusedBorderColor = Color.Gray, // Color del borde cuando el TextField no tiene el foco
+                focusedLabelColor = Color.Blue, // Color de la etiqueta (label) cuando el TextField tiene el foco
+                unfocusedLabelColor = Color.Gray // Color de la etiqueta (label) cuando el TextField no tiene el foco
+            )
+        )
+
+        Text(text = "Respuesta:",
+            style = TextStyle(
+                fontFamily = quicksandFont,
+                fontSize = 30.sp))
+
+        OutlinedTextField(
+            value = vm.answerTextFieldValue,
+            onValueChange = {vm.setAnswerTextFieldValue(it)},
+            label = { Text("Respuesta:") },
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = TextStyle(
+                fontFamily = quicksandFont,
+                fontSize = 20.sp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Blue, // Color del borde cuando el TextField tiene el foco
+                unfocusedBorderColor = Color.Gray, // Color del borde cuando el TextField no tiene el foco
+                focusedLabelColor = Color.Blue, // Color de la etiqueta (label) cuando el TextField tiene el foco
+                unfocusedLabelColor = Color.Gray // Color de la etiqueta (label) cuando el TextField no tiene el foco
+            )
+        )
+/*
         TextField(
             value = vm.questionTextFieldValue,
             onValueChange = {vm.setQuestionTextFieldValue(it)},
@@ -54,10 +109,9 @@ fun EscribirPregunta(){
                 fontFamily = quicksandFont,
                 fontSize = 20.sp))
 
-        Text(text = "Respuesta:",
-            style = TextStyle(
-                fontFamily = quicksandFont,
-                fontSize = 30.sp))
+
+
+
 
         TextField(
             value = vm.answerTextFieldValue,
@@ -68,6 +122,8 @@ fun EscribirPregunta(){
             textStyle = TextStyle(
                 fontFamily = quicksandFont,
                 fontSize = 20.sp))
+
+ */
 
         Spacer(modifier = Modifier.height(40.dp))
 
