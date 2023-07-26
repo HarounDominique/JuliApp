@@ -3,14 +3,22 @@ package com.example.myapplication.ui.theme.Screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -156,26 +164,38 @@ fun EscribirPregunta(){
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
-                    title = { Text("Título del Diálogo") },
-                    text = { Text("Contenido del Diálogo") },
+                    title = { Text("¿Está bien así?",
+                        style = TextStyle(
+                            fontFamily = quicksandFont,
+                            fontSize = 25.sp)) },
+                    text = { Text("Pregunta: "+vm.questionTextFieldValue +"\nRespuesta: "+vm.answerTextFieldValue,
+                        style = TextStyle(
+                            fontFamily = quicksandFont,
+                            fontSize = 20.sp)) },
                     confirmButton = {
-                        Button(
-                            onClick = {
-                                // Acción cuando se presiona el botón de confirmación
-                                showDialog = false
-                            }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text("Confirmar")
-                        }
-                    },
-                    dismissButton = {
-                        Button(
-                            onClick = {
-                                // Acción cuando se presiona el botón de descartar
-                                showDialog = false
+                            IconButton(onClick = { showDialog = false }) {
+                                Icon(
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "Confirmar",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
                             }
-                        ) {
-                            Text("Descartar")
+                            Spacer(modifier = Modifier.width(8.dp))
+                            IconButton(onClick = { showDialog = false }) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = "Cancelar",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                         }
                     }
                 )
