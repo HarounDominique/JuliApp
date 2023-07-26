@@ -34,7 +34,7 @@ fun MenuScreen(navController: NavController) {
                 brush = Brush.verticalGradient(
                     colors = listOf(
                         Color(0xFFFFFFFF),
-                        Color(0xFF7088A0)
+                        Color(0xFFA8BFD8)
                     )
                 )
             ),

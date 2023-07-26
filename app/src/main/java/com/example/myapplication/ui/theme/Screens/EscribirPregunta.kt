@@ -8,26 +8,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.MyButton
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
 
@@ -39,13 +40,16 @@ fun EscribirPregunta(){
 
     val vm : JuliViewModel = viewModel()
 
+    var showDialog by remember { mutableStateOf(false) }
+
     Column(modifier = Modifier
         .fillMaxSize()
         .background(
             brush = Brush.verticalGradient(
                 colors = listOf(
                     Color(0xFFFFFFFF),
-                    Color(0xFF7088A0)
+                    Color(0xFFFFFFFF)
+                    //Color(0xFF7088A0)
                 )
             )
         )
@@ -130,6 +134,7 @@ fun EscribirPregunta(){
         Button(
             onClick = {
                 // Aquí puedes realizar acciones cuando se hace clic en el botón
+                 showDialog = true
             },
             modifier = Modifier
                 .padding(16.dp)
@@ -140,6 +145,41 @@ fun EscribirPregunta(){
                 style = TextStyle(
                     fontFamily = quicksandFont,
                     fontSize = 30.sp))
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("Título del Diálogo") },
+                    text = { Text("Contenido del Diálogo") },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                // Acción cuando se presiona el botón de confirmación
+                                showDialog = false
+                            }
+                        ) {
+                            Text("Confirmar")
+                        }
+                    },
+                    dismissButton = {
+                        Button(
+                            onClick = {
+                                // Acción cuando se presiona el botón de descartar
+                                showDialog = false
+                            }
+                        ) {
+                            Text("Descartar")
+                        }
+                    }
+                )
+            }
         }
     }
 }
