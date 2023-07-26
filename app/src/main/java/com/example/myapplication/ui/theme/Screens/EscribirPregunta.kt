@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -179,7 +180,10 @@ fun EscribirPregunta(){
                                 .padding(horizontal = 8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            IconButton(onClick = { showDialog = false }) {
+                            IconButton(onClick = { showDialog = false;
+                                vm.addDate(Calendar.getInstance().time);
+                                vm.addQuestion(vm.questionTextFieldValue);
+                                vm.addAnswer(vm.answerTextFieldValue) }) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = "Confirmar",
