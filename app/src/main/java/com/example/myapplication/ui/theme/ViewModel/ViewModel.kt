@@ -20,10 +20,6 @@ class JuliViewModel(): ViewModel() {
     val listOfDate get() = _listOfDate
 
 
-
-    private var _myDiccionary = mutableMapOf<String, String>()
-    val myDiccionary get() = _myDiccionary
-
     private var _questionTextFieldValue by mutableStateOf("")
     val questionTextFieldValue get() = _questionTextFieldValue
 
@@ -45,13 +41,6 @@ class JuliViewModel(): ViewModel() {
     }
 
 
-
-    fun printQuestionAnswer(clave:String, valor:String){
-        for ((clave, valor) in _myDiccionary.entries) {
-            println("Clave: $clave - Valor: $valor")
-        }
-    }
-
     fun setQuestionTextFieldValue(text:String){
         _questionTextFieldValue=text
     }
@@ -59,14 +48,17 @@ class JuliViewModel(): ViewModel() {
         _answerTextFieldValue=text
     }
 
-    fun deleteQuestion(clave: String){
-        _myDiccionary.remove(clave)
-    }
 
-    fun clearDictionary(){
-        val clavesAEliminar = _myDiccionary.keys.toList()
-        clavesAEliminar.forEach { clave ->
-            _myDiccionary.remove(clave)
+
+    fun leerTodo() {
+        _listOfQuestions.forEach { element ->
+            println(element)
+        }
+        _listOfAnswers.forEach { element ->
+            println(element)
+        }
+        _listOfDate.forEach { element ->
+            println(element)
         }
     }
 }

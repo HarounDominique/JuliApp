@@ -34,38 +34,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        /*
-                    val f8 = FontFamily(
-                        Font(R.font.lr) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f7 = FontFamily(
-                        Font(R.font.ar) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f6 = FontFamily(
-                        Font(R.font.br) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f5 = FontFamily(
-                        Font(R.font.cgr) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f4 = FontFamily(
-                        Font(R.font.lor) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f3 = FontFamily(
-                        Font(R.font.mqr) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f2 = FontFamily(
-                        Font(R.font.mr) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val f1 = FontFamily(
-                        Font(R.font.ur) // Nombre del archivo de la fuente sin extensión
-                    )
-                    val randomNumber =
-                        Random.nextInt(1, 9) // Genera un número aleatorio entre 1 y 8 (ambos incluidos)
-                    println("Número aleatorio entre 1 y 8: $randomNumber")
-
-         */
-
         val randomNumber =
             Random.nextInt(1, 9) // Genera un número aleatorio entre 1 y 8 (ambos incluidos)
         println("Número aleatorio entre 1 y 8: $randomNumber")
@@ -153,4 +121,3 @@ fun MyButton(texto: String) {
         Text(text = texto)
     }
 }
-

@@ -55,11 +55,5 @@ fun MenuScreen(navController: NavController) {
                     fontFamily = quicksandFont,
                     fontSize = 30.sp))
         }
-        /*
-        Button(onClick = { navController.navigate(route = Screens.Boton3.route) }) {
-            Text(text = "Opciones")
-        }
-         */
     }
-
 }

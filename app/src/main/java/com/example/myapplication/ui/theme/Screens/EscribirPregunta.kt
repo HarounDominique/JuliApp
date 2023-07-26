@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.theme.Screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -50,6 +52,8 @@ fun EscribirPregunta(){
     val vm : JuliViewModel = viewModel()
 
     var showDialog by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -111,32 +115,6 @@ fun EscribirPregunta(){
                 unfocusedLabelColor = Color.Gray // Color de la etiqueta (label) cuando el TextField no tiene el foco
             )
         )
-/*
-        TextField(
-            value = vm.questionTextFieldValue,
-            onValueChange = {vm.setQuestionTextFieldValue(it)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            textStyle = TextStyle(
-                fontFamily = quicksandFont,
-                fontSize = 20.sp))
-
-
-
-
-
-        TextField(
-            value = vm.answerTextFieldValue,
-            onValueChange = {vm.setAnswerTextFieldValue(it)},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            textStyle = TextStyle(
-                fontFamily = quicksandFont,
-                fontSize = 20.sp))
-
- */
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -155,6 +133,10 @@ fun EscribirPregunta(){
                     fontFamily = quicksandFont,
                     fontSize = 30.sp))
         }
+
+
+
+
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -180,22 +162,25 @@ fun EscribirPregunta(){
                                 .padding(horizontal = 8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            IconButton(onClick = { showDialog = false;
-                                vm.addDate(Calendar.getInstance().time);
-                                vm.addQuestion(vm.questionTextFieldValue);
-                                vm.addAnswer(vm.answerTextFieldValue) }) {
+                            IconButton(onClick = { showDialog = false ; Toast.makeText(context, "Pregunta cancelada", Toast.LENGTH_SHORT).show()}) {
                                 Icon(
-                                    imageVector = Icons.Default.Check,
-                                    contentDescription = "Confirmar",
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = "Cancelar",
                                     tint = Color.Black,
                                     modifier = Modifier.size(24.dp)
                                 )
                             }
                             Spacer(modifier = Modifier.width(8.dp))
-                            IconButton(onClick = { showDialog = false }) {
+                            IconButton(onClick = { showDialog = false;
+                                vm.addDate(Calendar.getInstance().time);
+                                vm.addQuestion(vm.questionTextFieldValue);
+                                vm.addAnswer(vm.answerTextFieldValue);
+                                Toast.makeText(context, "Pregunta guardada", Toast.LENGTH_SHORT).show();
+                                vm.leerTodo();
+                            }) {
                                 Icon(
-                                    imageVector = Icons.Default.Clear,
-                                    contentDescription = "Cancelar",
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "Confirmar",
                                     tint = Color.Black,
                                     modifier = Modifier.size(24.dp)
                                 )
