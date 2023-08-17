@@ -14,9 +14,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
 
 @Composable
-fun LeerPregunta(){
+fun LeerPregunta(vm : JuliViewModel){
 
-    val vm : JuliViewModel = viewModel()
 
     val questionEntries = vm.listOfQuestions;
 
@@ -29,9 +28,9 @@ fun LeerPregunta(){
             Button(onClick = {
                 // Acción cuando se hace clic en el botón
                 // Por ejemplo, puedes mostrar el texto de la entrada en la consola
-                println("Se hizo clic en el botón de $entry")
+                println("Se hizo clic en el botón de entry")
             }) {
-                Text(text = "entry", style = TextStyle(fontSize = 20.sp))
+                Text(text = entry, style = TextStyle(fontSize = 20.sp))
             }
         }
     }

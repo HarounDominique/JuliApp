@@ -39,17 +39,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EscribirPregunta(){
+fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
 
     val quicksandFont = FontFamily(Font(R.font.quicksand_regular))
-
-    val vm : JuliViewModel = viewModel()
 
     var showDialog by remember { mutableStateOf(false) }
 
@@ -177,6 +176,7 @@ fun EscribirPregunta(){
                                 vm.addAnswer(vm.answerTextFieldValue);
                                 Toast.makeText(context, "Pregunta guardada", Toast.LENGTH_SHORT).show();
                                 vm.leerTodo();
+                                navController.navigate(route = Screens.Boton2.route);
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Check,

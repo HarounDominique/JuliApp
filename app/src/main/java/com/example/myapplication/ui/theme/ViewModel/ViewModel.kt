@@ -51,6 +51,7 @@ class JuliViewModel(): ViewModel() {
 
 
     fun leerTodo() {
+        println("Iniciando leerTodo")
         _listOfQuestions.forEach { element ->
             println(element)
         }
@@ -60,5 +61,6 @@ class JuliViewModel(): ViewModel() {
         _listOfDate.forEach { element ->
             println(element)
         }
+        println("Fin de leerTodo")
     }
 }

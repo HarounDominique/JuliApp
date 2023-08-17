@@ -61,6 +61,8 @@ class MainActivity : ComponentActivity() {
 
         val f1 = selectedFontFamily
 
+        //el código anterior varía aleatoriamente la fuente del título de la App
+
         setContent {
             MyApplicationTheme {
                 Scaffold(
