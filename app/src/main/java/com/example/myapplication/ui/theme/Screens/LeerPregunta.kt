@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
 
 @Composable
-fun LeerPregunta(vm : JuliViewModel){
+fun LeerPregunta(vm : JuliViewModel, navController: NavController){
 
 
     val questionEntries = vm.listOfQuestions;
