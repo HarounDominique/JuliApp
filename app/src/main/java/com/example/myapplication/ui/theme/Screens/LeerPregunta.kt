@@ -26,6 +26,7 @@ import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.ui.graphics.Color
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -54,33 +55,23 @@ fun LeerPregunta(vm : JuliViewModel, navController: NavController){
                 }
             }
         }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = { isBottomSheetVisible = true }) {
-                Text(text = "Mostrar Bottom Sheet")
-            }
-
-            if (isBottomSheetVisible) {
-                ModalBottomSheetLayout(
-                    sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded),
-                    sheetContent = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Contenido del Bottom Sheet")
-                        }
+        if (isBottomSheetVisible) {
+            ModalBottomSheetLayout(
+                sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded),
+                sheetContent = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .padding(16.dp)
+                            .background(Color.Gray),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Contenido del Bottom Sheet")
                     }
-                ) {
-                    // Contenido principal de la pantalla
                 }
+            ) {
+                // Contenido principal de la pantalla
             }
         }
 
