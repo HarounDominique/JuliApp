@@ -134,9 +134,6 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
         }
 
 
-
-
-
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -176,7 +173,8 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
                                 vm.addAnswer(vm.answerTextFieldValue);
                                 Toast.makeText(context, "Pregunta guardada", Toast.LENGTH_SHORT).show();
                                 vm.leerTodo();
-                                navController.navigate(route = Screens.Boton2.route);
+                                println(vm.listOfQuestions.size)
+                                //navController.navigate(route = Screens.Boton2.route);
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Check,

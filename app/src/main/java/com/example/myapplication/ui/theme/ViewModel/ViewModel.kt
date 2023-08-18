@@ -10,10 +10,10 @@ class JuliViewModel(): ViewModel() {
 
     //ESTADO
 
-    private var _listOfQuestions = mutableListOf("")
+    private var _listOfQuestions = mutableListOf<String>()
     val listOfQuestions get() = _listOfQuestions
 
-    private var _listOfAnswers = mutableListOf("")
+    private var _listOfAnswers = mutableListOf<String>()
     val listOfAnswers get() = _listOfAnswers
 
     private var _listOfDate = mutableListOf<Date>()
