@@ -176,8 +176,8 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
                                 println(vm.listOfQuestions.size)
                                 vm.setAnswerTextFieldValue("")
                                 vm.setQuestionTextFieldValue("")
+                                vm.exportQuestionsAndAnswersToJson(vm.listOfQuestions, vm.listOfAnswers);
                                 navController.navigate(route = Screens.MainScreen.route)
-                                //navController.navigate(route = Screens.Boton2.route);
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
