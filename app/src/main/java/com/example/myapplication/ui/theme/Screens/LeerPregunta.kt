@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -36,117 +38,46 @@ import androidx.compose.ui.text.font.FontWeight
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LeerPregunta(vm: JuliViewModel, navController: NavController) {
-
-    val questionEntries = vm.listOfQuestions;
-    val answerEntries = vm.listOfAnswers;
+    val questionEntries = vm.listOfQuestions
+    val answerEntries = vm.listOfAnswers
     var isBottomSheetVisible by remember { mutableStateOf(false) }
-    var questionChoosed = "";
-    var answerChoosed = "";
-    var index = 0;
+    var index by remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        if (questionEntries.isNotEmpty()) {
-            var selectedQuestionIndex = -1;
-            questionEntries.forEach { entry ->
-                selectedQuestionIndex++
-                index = selectedQuestionIndex;
-                Button(onClick = {
-                    isBottomSheetVisible = true;
-                    // Acción cuando se hace clic en el botón
-                    // Por ejemplo, puedes mostrar el texto de la entrada en la consola
-                    //guardo la pregunta y su respuesta en las variables que posteriormente se mostrarán en el bottomsheet:
-                    println("El índice de esta pregunta es: " + index)
-
-                    //println("LOG: Se hizo clic en el botón de pregunta")
-                    //entry.get
-                }) {
-                    Text(text = entry, style = TextStyle(fontSize = 20.sp))
+        if (!isBottomSheetVisible) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                itemsIndexed(questionEntries) { questionIndex, entry ->
+                    Button(onClick = {
+                        isBottomSheetVisible = true
+                        index = questionIndex
+                    }) {
+                        Text(text = entry, style = TextStyle(fontSize = 20.sp))
+                    }
                 }
             }
         }
-        /*
-                    if (isBottomSheetVisible) {
-                        ModalBottomSheetLayout(
-                            sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded),
-                            sheetContent = {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(200.dp)
-                                        .padding(16.dp)
-                                        .background(Color.Gray),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(text = "Contenido del Bottom Sheet")
-                                    Text(text = "PREGUNTA: "+questionEntries.get(index).toString())
-                                    Text(text = "RESPUESTA: "+answerEntries.get(index).toString())
-
-                                }
-                            }
-                        ) {
-                            // Contenido principal de la pantalla
-                            Text(text = "PREGUNTA: "+questionEntries.get(index).toString())
-                            Text(text = "RESPUESTA: "+answerEntries.get(index).toString())
-                        }
-                    }
-
-         */
-
 
         if (isBottomSheetVisible) {
-            ModalBottomSheetLayout(
-                sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded),
-                sheetContent = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(16.dp)
-                            .background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color(0xFFFFFFFF),
-                                        Color(0xFFA8BFD8)
-                                    )
-                                )
-                            ),
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "PREGUNTA: ",
-                                style = TextStyle(fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0xFFFFFFFF),
+                                Color(0xFFA8BFD8)
                             )
-                            Text(
-                                text = questionEntries.get(index).toString(),
-                                style = TextStyle(fontSize = 25.sp, fontWeight = FontWeight.Normal)
-                            )
-
-                            Spacer(modifier = Modifier.height(16.dp)) // Espaciador
-
-                            Text(
-                                text = "RESPUESTA: ",
-                                style = TextStyle(fontSize = 25.sp, fontWeight = FontWeight.Bold)
-                            )
-                            Text(
-                                text = answerEntries.get(index).toString(),
-                                style = TextStyle(fontSize = 25.sp, fontWeight = FontWeight.Normal)
-                            )
-                            Spacer(modifier = Modifier.height(16.dp)) // Espaciador
-                            Spacer(modifier = Modifier.height(16.dp)) // Espaciador
-                            Spacer(modifier = Modifier.height(16.dp)) // Espaciador
-                        }
-                    }
-                }
+                        )
+                    ),
             ) {
                 Column(
                     modifier = Modifier
@@ -154,16 +85,34 @@ fun LeerPregunta(vm: JuliViewModel, navController: NavController) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Contenido principal de la pantalla
-                    Button(onClick = { navController.navigate(route = Screens.Boton2.route) }) {
-                        Text(
-                            text = "VOLVER A MIS PREGUNTAS"
-                        )
-                    }
+                    Text(
+                        text = "PREGUNTA: ",
+                        style = TextStyle(fontSize = 33.sp, fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
+                    Text(
+                        text = questionEntries.getOrNull(index).toString(),
+                        style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Normal),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp)) // Espaciador
+
+                    Text(
+                        text = "RESPUESTA: ",
+                        style = TextStyle(fontSize = 33.sp, fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    Text(
+                        text = answerEntries.getOrNull(index).toString(),
+                        style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Normal),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.height(50.dp)) // Espaciador
                 }
             }
         }
-
     }
 }
 

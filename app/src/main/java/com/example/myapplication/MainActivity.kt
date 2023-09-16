@@ -108,18 +108,3 @@ fun BodyContent(modifier: Modifier) {
         Navigation()
     }
 }
-
-@Composable
-fun MyButton(texto: String) {
-    Button(
-        onClick = {
-            // Aquí puedes realizar acciones cuando se hace clic en el botón
-        },
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    ) {
-        // Texto del botón
-        Text(text = texto)
-    }
-}

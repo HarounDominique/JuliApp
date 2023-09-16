@@ -174,6 +174,9 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
                                 Toast.makeText(context, "Pregunta guardada", Toast.LENGTH_SHORT).show();
                                 vm.leerTodo();
                                 println(vm.listOfQuestions.size)
+                                vm.setAnswerTextFieldValue("")
+                                vm.setQuestionTextFieldValue("")
+                                navController.navigate(route = Screens.MainScreen.route)
                                 //navController.navigate(route = Screens.Boton2.route);
                             }) {
                                 Icon(
