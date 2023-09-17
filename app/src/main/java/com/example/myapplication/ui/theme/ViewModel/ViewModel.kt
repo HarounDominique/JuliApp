@@ -1,15 +1,20 @@
 package com.example.myapplication.ui.theme.ViewModel
 
+import android.content.Context
+import android.os.Environment
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import java.util.Date
 import com.google.gson.Gson
+import java.util.Date
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.File
-import java.io.FileWriter
+import java.io.FileOutputStream
 import java.io.IOException
+
 
 class JuliViewModel(): ViewModel() {
 
@@ -71,10 +76,11 @@ class JuliViewModel(): ViewModel() {
 
     //persistencia:
 
+
     data class QA(val pregunta: String, val respuesta: String)
 
-    fun exportQuestionsAndAnswersToJson(questions: List<String>, answers: List<String>) {
-        val gson: Gson = GsonBuilder().setPrettyPrinting().create()
+    fun exportQuestionsAndAnswersToJson(context: Context, questions: List<String>, answers: List<String>) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
 
         val qaList = mutableListOf<QA>()
 
@@ -89,21 +95,67 @@ class JuliViewModel(): ViewModel() {
         val json = gson.toJson(qaList)
 
         try {
-            val outputPath = "questions_and_answers.json"
+            val fileName = "questions_and_answers.json"
 
-            // Crear un archivo en la unidad D:\ con el nombre "questions_and_answers.json"
-            val outputFile = File(outputPath)
+            // Obtener el directorio de archivos privado de la aplicación
+            val directory = context.filesDir
 
-            // Escribir el JSON en el archivo en la unidad D:\
-            val fileWriter = FileWriter(outputFile)
-            fileWriter.write(json)
-            fileWriter.flush()
-            fileWriter.close()
+            // Crear un archivo en el directorio de archivos privado
+            val outputFile = File(directory, fileName)
 
-            println("Las preguntas y respuestas se han guardado en el archivo JSON.")
+            // Escribir el JSON en el archivo
+            val fileOutputStream = FileOutputStream(outputFile)
+            fileOutputStream.write(json.toByteArray())
+            fileOutputStream.close()
+
+            println("Las preguntas y respuestas se han guardado en el archivo JSON en el directorio de archivos privados.")
+            Toast.makeText(context, "Las preguntas y respuestas se han guardado en el archivo JSON en el directorio de archivos privados.", Toast.LENGTH_SHORT).show();
         } catch (e: IOException) {
             e.printStackTrace()
             println("ERROR: Las preguntas y respuestas NO se han guardado en el archivo JSON.")
+            Toast.makeText(context, "ERROR: Las preguntas y respuestas NO se han guardado en el archivo JSON.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    fun importQuestionsAndAnswersFromJson(context: Context, vm: JuliViewModel): Boolean {
+        val fileName = "questions_and_answers.json"
+        val file = File(context.filesDir, fileName)
+
+        if (!file.exists()) {
+            // El archivo JSON no existe en el directorio
+            println("El archivo JSON no existe en el directorio.")
+            Toast.makeText(context, "El archivo JSON no existe en el directorio.", Toast.LENGTH_SHORT).show();
+            return false
+        }
+
+        try {
+            val json = file.readText()
+            val gson = Gson()
+            val qaListType = object : TypeToken<List<QA>>() {}.type
+
+            val qaList: List<QA> = gson.fromJson(json, qaListType)
+
+            val questions = mutableListOf<String>()
+            val answers = mutableListOf<String>()
+
+            for (qa in qaList) {
+                questions.add(qa.pregunta)
+                answers.add(qa.respuesta)
+            }
+
+            // Agregar preguntas a vm.listOfQuestions
+            vm.listOfQuestions.addAll(questions)
+
+            // Agregar respuestas a vm.listOfAnswers
+            vm.listOfAnswers.addAll(answers)
+
+            return true
+        } catch (e: IOException) {
+            e.printStackTrace()
+            println("ERROR: No se pudo leer el archivo JSON.")
+            Toast.makeText(context, "ERROR: No se pudo leer el archivo JSON.", Toast.LENGTH_SHORT).show();
+            return false
         }
     }
 

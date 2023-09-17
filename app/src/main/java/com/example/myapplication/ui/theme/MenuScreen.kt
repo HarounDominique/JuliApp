@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -30,6 +31,9 @@ fun MenuScreen(navController: NavController) {
 
     val quicksandFont = FontFamily(Font(R.font.quicksand_regular))
     val vm : JuliViewModel = viewModel()
+    val context = LocalContext.current
+
+    vm.importQuestionsAndAnswersFromJson(context, vm)
 
     Column(
         modifier = Modifier

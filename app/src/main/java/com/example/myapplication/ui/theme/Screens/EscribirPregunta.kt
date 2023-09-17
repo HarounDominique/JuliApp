@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.theme.Screens
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -176,7 +178,8 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
                                 println(vm.listOfQuestions.size)
                                 vm.setAnswerTextFieldValue("")
                                 vm.setQuestionTextFieldValue("")
-                                vm.exportQuestionsAndAnswersToJson(vm.listOfQuestions, vm.listOfAnswers);
+
+                                vm.exportQuestionsAndAnswersToJson(context, vm.listOfQuestions, vm.listOfAnswers);
                                 navController.navigate(route = Screens.MainScreen.route)
                             }) {
                                 Icon(
