@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.theme.ViewModel
 
 import android.content.Context
-import android.os.Environment
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -19,6 +18,8 @@ import java.io.IOException
 class JuliViewModel(): ViewModel() {
 
     //regionESTADO
+
+    val pathToResources = "src/main/java/com/example/myapplication/resources"
 
     private var _listOfQuestions = mutableListOf<String>()
     val listOfQuestions get() = _listOfQuestions
@@ -98,7 +99,8 @@ class JuliViewModel(): ViewModel() {
             val fileName = "questions_and_answers.json"
 
             // Obtener el directorio de archivos privado de la aplicación
-            val directory = context.filesDir
+            //val directory = context.filesDir
+            val directory = pathToResources
 
             // Crear un archivo en el directorio de archivos privado
             val outputFile = File(directory, fileName)
@@ -120,7 +122,8 @@ class JuliViewModel(): ViewModel() {
 
     fun importQuestionsAndAnswersFromJson(context: Context, vm: JuliViewModel): Boolean {
         val fileName = "questions_and_answers.json"
-        val file = File(context.filesDir, fileName)
+        //val file = File(context.filesDir, fileName)
+        val file = File(pathToResources, fileName)
 
         if (!file.exists()) {
             // El archivo JSON no existe en el directorio
