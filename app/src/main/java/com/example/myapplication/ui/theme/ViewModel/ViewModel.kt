@@ -7,17 +7,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import java.util.Date
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.Date
 
+class JuliViewModel : ViewModel() {
 
-class JuliViewModel(): ViewModel() {
-
-    //regionESTADO
+    // region ESTADO
 
     val pathToResources = "src/main/java/com/example/myapplication/resources"
 
@@ -30,137 +29,133 @@ class JuliViewModel(): ViewModel() {
     private var _listOfDate = mutableListOf<Date>()
     val listOfDate get() = _listOfDate
 
-
     private var _questionTextFieldValue by mutableStateOf("")
     val questionTextFieldValue get() = _questionTextFieldValue
 
     private var _answerTextFieldValue by mutableStateOf("")
     val answerTextFieldValue get() = _answerTextFieldValue
 
-    //endregion
+    // endregion
 
-    //regionFUNCIONES
+    // region FUNCIONES
 
-    fun addQuestion(pregunta : String){
+    fun setQuestionsAndAnswers(questions: List<String>, answers: List<String>) {
+        _listOfQuestions.clear()
+        _listOfAnswers.clear()
+        _listOfQuestions.addAll(questions)
+        _listOfAnswers.addAll(answers)
+    }
+
+    fun addQuestion(pregunta: String) {
         _listOfQuestions.add(pregunta)
     }
 
-    fun addAnswer(respuesta : String){
+    fun addAnswer(respuesta: String) {
         _listOfAnswers.add(respuesta)
     }
 
-    fun addDate(fecha : Date){
+    fun addDate(fecha: Date) {
         _listOfDate.add(fecha)
     }
 
-
-    fun setQuestionTextFieldValue(text:String){
-        _questionTextFieldValue=text
+    fun setQuestionTextFieldValue(text: String) {
+        _questionTextFieldValue = text
     }
-    fun setAnswerTextFieldValue(text:String){
-        _answerTextFieldValue=text
+
+    fun setAnswerTextFieldValue(text: String) {
+        _answerTextFieldValue = text
     }
 
     fun leerTodo() {
         println("Iniciando leerTodo")
-        _listOfQuestions.forEach { element ->
-            println(element)
-        }
-        _listOfAnswers.forEach { element ->
-            println(element)
-        }
-        _listOfDate.forEach { element ->
-            println(element)
-        }
+        _listOfQuestions.forEach { println(it) }
+        _listOfAnswers.forEach { println(it) }
+        _listOfDate.forEach { println(it) }
         println("Fin de leerTodo")
     }
 
-    //persistencia:
-
+    // Persistencia: exportar a JSON
 
     data class QA(val pregunta: String, val respuesta: String)
 
     fun exportQuestionsAndAnswersToJson(context: Context, questions: List<String>, answers: List<String>) {
         val gson = GsonBuilder().setPrettyPrinting().create()
-
         val qaList = mutableListOf<QA>()
 
-        // Crear una lista de objetos QA a partir de las listas de preguntas y respuestas
         for (i in 0 until questions.size.coerceAtMost(answers.size)) {
-            val pregunta = questions[i]
-            val respuesta = answers[i]
-            qaList.add(QA(pregunta, respuesta))
+            qaList.add(QA(questions[i], answers[i]))
         }
 
-        // Crear un JSON a partir de la lista de QA
         val json = gson.toJson(qaList)
-
         try {
             val fileName = "questions_and_answers.json"
-
-            // Obtener el directorio de archivos privado de la aplicación
-            //val directory = context.filesDir
-            val directory = pathToResources
-
-            // Crear un archivo en el directorio de archivos privado
+            val directory = context.filesDir
             val outputFile = File(directory, fileName)
-
-            // Escribir el JSON en el archivo
-            val fileOutputStream = FileOutputStream(outputFile)
-            fileOutputStream.write(json.toByteArray())
-            fileOutputStream.close()
-
-            println("Las preguntas y respuestas se han guardado en el archivo JSON en el directorio de archivos privados.")
-            Toast.makeText(context, "Las preguntas y respuestas se han guardado en el archivo JSON en el directorio de archivos privados.", Toast.LENGTH_SHORT).show();
+            FileOutputStream(outputFile).use { it.write(json.toByteArray()) }
+            Toast.makeText(context, "Preguntas y respuestas guardadas correctamente.", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             e.printStackTrace()
-            println("ERROR: Las preguntas y respuestas NO se han guardado en el archivo JSON.")
-            Toast.makeText(context, "ERROR: Las preguntas y respuestas NO se han guardado en el archivo JSON.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "ERROR: No se pudo guardar el archivo JSON.", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     fun importQuestionsAndAnswersFromJson(context: Context, vm: JuliViewModel): Boolean {
         val fileName = "questions_and_answers.json"
-        //val file = File(context.filesDir, fileName)
-        val file = File(pathToResources, fileName)
+        val file = File(context.filesDir, fileName)
 
         if (!file.exists()) {
-            // El archivo JSON no existe en el directorio
-            println("El archivo JSON no existe en el directorio.")
-            Toast.makeText(context, "El archivo JSON no existe en el directorio.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "El archivo JSON no existe en el directorio.", Toast.LENGTH_SHORT).show()
             return false
         }
 
-        try {
+        return try {
             val json = file.readText()
             val gson = Gson()
             val qaListType = object : TypeToken<List<QA>>() {}.type
-
             val qaList: List<QA> = gson.fromJson(json, qaListType)
 
-            val questions = mutableListOf<String>()
-            val answers = mutableListOf<String>()
+            vm.listOfQuestions.addAll(qaList.map { it.pregunta })
+            vm.listOfAnswers.addAll(qaList.map { it.respuesta })
 
-            for (qa in qaList) {
-                questions.add(qa.pregunta)
-                answers.add(qa.respuesta)
-            }
-
-            // Agregar preguntas a vm.listOfQuestions
-            vm.listOfQuestions.addAll(questions)
-
-            // Agregar respuestas a vm.listOfAnswers
-            vm.listOfAnswers.addAll(answers)
-
-            return true
+            true
         } catch (e: IOException) {
             e.printStackTrace()
-            println("ERROR: No se pudo leer el archivo JSON.")
-            Toast.makeText(context, "ERROR: No se pudo leer el archivo JSON.", Toast.LENGTH_SHORT).show();
-            return false
+            Toast.makeText(context, "ERROR: No se pudo leer el archivo JSON.", Toast.LENGTH_SHORT).show()
+            false
         }
     }
 
-    //endregion
+    // Persistencia con SharedPreferences
+
+    fun saveQuestionsAndAnswers(context: Context, questions: List<String>, answers: List<String>) {
+        val sharedPreferences = context.getSharedPreferences("QA_Prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.putInt("questions_size", questions.size)
+
+        for (i in questions.indices) {
+            editor.putString("question_$i", questions[i])
+            editor.putString("answer_$i", answers[i])
+        }
+
+        editor.apply()
+        Toast.makeText(context, "Preguntas y respuestas guardadas en SharedPreferences.", Toast.LENGTH_SHORT).show()
+    }
+
+    fun loadQuestionsAndAnswers(context: Context): Pair<List<String>, List<String>> {
+        val sharedPreferences = context.getSharedPreferences("QA_Prefs", Context.MODE_PRIVATE)
+        val size = sharedPreferences.getInt("questions_size", 0)
+
+        val questions = mutableListOf<String>()
+        val answers = mutableListOf<String>()
+
+        for (i in 0 until size) {
+            questions.add(sharedPreferences.getString("question_$i", "") ?: "")
+            answers.add(sharedPreferences.getString("answer_$i", "") ?: "")
+        }
+
+        return Pair(questions, answers)
+    }
+
+    // endregion
 }

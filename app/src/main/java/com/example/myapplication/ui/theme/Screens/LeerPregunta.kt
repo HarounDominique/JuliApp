@@ -30,14 +30,24 @@ import com.example.myapplication.ui.theme.ViewModel.JuliViewModel
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LeerPregunta(vm: JuliViewModel, navController: NavController) {
+    val context = LocalContext.current
+
+    // Cargar preguntas y respuestas
+    LaunchedEffect(Unit) {
+        val (questions, answers) = vm.loadQuestionsAndAnswers(context)
+        vm.setQuestionsAndAnswers(questions, answers) // Asumiendo que tienes métodos en tu ViewModel para actualizar las listas
+    }
+
     val questionEntries = vm.listOfQuestions
     val answerEntries = vm.listOfAnswers
     var isBottomSheetVisible by remember { mutableStateOf(false) }
@@ -48,12 +58,12 @@ fun LeerPregunta(vm: JuliViewModel, navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         if (!isBottomSheetVisible) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 itemsIndexed(questionEntries) { questionIndex, entry ->
                     Button(onClick = {
                         isBottomSheetVisible = true
@@ -80,8 +90,7 @@ fun LeerPregunta(vm: JuliViewModel, navController: NavController) {
                     ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -115,4 +124,5 @@ fun LeerPregunta(vm: JuliViewModel, navController: NavController) {
         }
     }
 }
+
 

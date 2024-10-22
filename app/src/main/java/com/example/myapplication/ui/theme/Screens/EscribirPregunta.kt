@@ -121,7 +121,7 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
 
         Button(
             onClick = {
-                // Aquí puedes realizar acciones cuando se hace clic en el botón
+
                  showDialog = true
             },
             modifier = Modifier
@@ -173,6 +173,7 @@ fun EscribirPregunta(vm : JuliViewModel, navController: NavController){
                                 vm.addDate(Calendar.getInstance().time);
                                 vm.addQuestion(vm.questionTextFieldValue);
                                 vm.addAnswer(vm.answerTextFieldValue);
+                                vm.saveQuestionsAndAnswers(context, vm.listOfQuestions, vm.listOfAnswers)
                                 Toast.makeText(context, "Pregunta guardada", Toast.LENGTH_SHORT).show();
                                 vm.leerTodo();
                                 println(vm.listOfQuestions.size)
